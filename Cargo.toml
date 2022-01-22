@@ -1,5 +1,5 @@
 [package]
-name = "my-http-server-isalive"
+name = "my-http-server-is-alive"
 version = "0.1.0"
 edition = "2021"
 
