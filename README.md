@@ -4,13 +4,9 @@
 ## Example
 
 ```
-use my_http_server::middlewares::controllers::documentation::HttpActionDescription;
-use my_http_server::middlewares::controllers::ControllersMiddleware;
-use my_http_server::{
-    middlewares::controllers::actions::GetAction, HttpContext, HttpFailResult, HttpOkResult,
-};
-use my_http_server::{MyHttpServer, WebContentType};
-use serde::Serialize;
+use my_http_server::{MyHttpServer};
+use my_http_server_is_alive::IsAliveContext;
+use my_http_server_is_alive::is_alive_controller::build;
 use std::collections::HashMap;
 use std::net::SocketAddr;
 use std::sync::Arc;
@@ -35,7 +31,7 @@ async fn main() {
     let is_alive_context = Arc::new(context);
     let mut http_server: MyHttpServer = MyHttpServer::new(SocketAddr::from(([0, 0, 0, 0], 8080)));
 
-    let controllers = Arc::new(is_alive_controller::build(is_alive_context.clone()));
+    let controllers = Arc::new(build(is_alive_context.clone()));
 
     http_server.add_middleware(controllers);
     http_server.start(app.clone());
@@ -54,5 +50,6 @@ impl rust_extensions::ApplicationStates for AppContext {
     fn is_shutting_down(&self) -> bool {
         false
     }
+}
 }
 ```
